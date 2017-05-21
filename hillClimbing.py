@@ -1,4 +1,5 @@
 import random
+from random import shuffle
 
 def simpleHillClimbing(problem):
     state = problem.initialState()
@@ -26,3 +27,19 @@ def stochasticHillClimbing(problem):
         if(len(betterNeighbours) == 0):
             return state
         state = random.choice(betterNeighbours)
+
+def firstChoiceHillClimbing(problem):
+    state = problem.initialState()
+    while True:
+        actions = problem.actions(state)
+        randoms = [i for i in len(actions)]
+        shuffle(randoms)
+        nextState = state
+        for r in randoms:
+            action = actions[r]
+            neighbour = problem.result(state, action)
+            if (problem.fitness(neighbour) > problem.fitness(state)):
+                nextState = neighbour
+                break
+        if(nextState == state):
+            return state
